@@ -9,7 +9,9 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@studio-freight/react-lenis": "^0.0.47",
     "@supabase/ssr": "^0.8.0",
+    "framer-motion": "^12.23.26",
     "next": "16.1.1",
     "react": "19.2.3",
     "react-dom": "19.2.3"
