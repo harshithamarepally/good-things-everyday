@@ -1,26 +1,48 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 export default function Home() {
   const { scrollYProgress } = useScroll();
+  const [note, setNote] = useState("");
 
-  const x = useTransform(scrollYProgress, [0, 0.3, 0.7, 0.9], [0, 60, 60, 0]); // Move Right
+  const x = useTransform(scrollYProgress, [0, 0.3, 0.7, 0.9], [0, 90, 90, 0]);
   const y = useTransform(
     scrollYProgress,
     [0, 0.3, 0.7, 0.9],
-    [0, -150, -150, 0]
-  ); // Lift Up
+    [0, -190, -190, 0]
+  );
   const rotate = useTransform(
     scrollYProgress,
     [0, 0.3, 0.7, 0.9],
-    [0, 25, 25, 0]
-  ); // Tilt
+    [0, 20, 20, 0]
+  );
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-background">
-      <div className="relative h-130 w-130 top-150">
+      <div className="relative h-100 w-100 top-15">
+        <Image
+          src="/assets/blue-note.png"
+          alt="blue-post-it-note"
+          fill
+          className="object-contain"
+          priority
+        />
+
+        <div className="absolute inset-0 flex items-center justify-center p-25">
+          <textarea
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+            placeholder="something good today was..."
+            data-lenis-prevent
+            className="h-full w-full resize-none overflow-y-auto overscroll-contain bg-transparent text-xl text-black outline-none placeholder:text-gray-400"
+            style={{ fontFamily: "var(--font-shadows)" }}
+          />
+        </div>
+      </div>
+      <div className="relative h-150 w-150 top-150">
         <Image
           src="/assets/jar-back.png"
           alt="jar-back"
@@ -42,13 +64,13 @@ export default function Home() {
             src="/assets/jar-lid.png"
             alt="jar-cork-lid"
             fill
-            className="z-30 object-contain"
+            className="object-contain"
             priority
           />
         </motion.div>
       </div>
 
-      <div className="h-[100vh] w-full"></div>
+      <div className="h-screen w-full"></div>
     </main>
   );
 }
