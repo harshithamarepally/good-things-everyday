@@ -8,15 +8,15 @@ export default function Home() {
   const { scrollYProgress } = useScroll();
   const [note, setNote] = useState("");
 
-  const x = useTransform(scrollYProgress, [0, 0.3, 0.7, 0.9], [0, 90, 90, 0]);
+  const x = useTransform(scrollYProgress, [0.4, 0.55, 0.7, 1], [0, 90, 90, 0]);
   const y = useTransform(
     scrollYProgress,
-    [0, 0.3, 0.7, 0.9],
+    [0.4, 0.55, 0.7, 1],
     [0, -190, -190, 0]
   );
   const rotate = useTransform(
     scrollYProgress,
-    [0, 0.3, 0.7, 0.9],
+    [0.4, 0.55, 0.7, 1],
     [0, 20, 20, 0]
   );
 
