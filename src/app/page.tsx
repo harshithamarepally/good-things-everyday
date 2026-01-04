@@ -12,28 +12,32 @@ export default function Home() {
   // jar lid animations
   const lidX = useTransform(
     scrollYProgress,
-    [0.4, 0.55, 0.7, 1],
-    [0, 90, 90, 0]
+    [0.3, 0.4, 0.55, 0.7],
+    [0, 110, 110, 0]
   );
   const lidY = useTransform(
     scrollYProgress,
-    [0.4, 0.55, 0.7, 1],
-    [0, -190, -190, 0]
+    [0.3, 0.4, 0.55, 0.7],
+    [0, -200, -200, 0]
   );
   const lidRotate = useTransform(
     scrollYProgress,
-    [0.4, 0.55, 0.7, 1],
-    [0, 20, 20, 0]
+    [0.3, 0.4, 0.55, 0.7],
+    [0, 25, 25, 0]
   );
 
-  // note landing animations
-  const noteMorphProgress = useTransform(scrollYProgress, [0, 0.2], [0, 1]);
-  const noteScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.3]);
-  const noteY = useTransform(scrollYProgress, [0.3, 0.5], [0, 400]);
+  // note fade in out animations
+  const noteMorphProgress = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
+  const noteUnfoldedOpacity = useTransform(noteMorphProgress, [0, 0.5], [1, 0]);
+  const noteFoldedOpacity = useTransform(noteMorphProgress, [0.5, 1], [0, 1]);
+  const noteScale = useTransform(scrollYProgress, [0, 0.1], [1, 0.3]);
+
+  // note moving down animations
+  const noteY = useTransform(scrollYProgress, [0.1, 0.4, 0.7], [50, 500, 1210]);
 
   useEffect(() => {
     const landedCheck = scrollYProgress.on("change", (latest) => {
-      if (latest >= 0.5 && !noteLanded) {
+      if (latest >= 0.7 && !noteLanded) {
         setNoteLanded(true);
       }
     });
@@ -44,13 +48,15 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center justify-center bg-background">
       <motion.div
         style={{
-          y: noteLanded ? 400 : noteY,
-          scale: noteLanded ? 0.4 : noteScale,
+          y: noteLanded ? 1210 : noteY,
+          scale: noteLanded ? 0.3 : noteScale,
         }}
-        className="relative h-100 w-100 top-15"
+        className="relative h-100 w-100 top-15 z-10"
       >
         <motion.div
-          style={{ opacity: useTransform(noteMorphProgress, [0, 0.5], [1, 0]) }}
+          style={{
+            opacity: noteLanded ? 0 : noteUnfoldedOpacity,
+          }}
           className="absolute inset-0"
         >
           <Image
@@ -74,8 +80,10 @@ export default function Home() {
         </motion.div>
 
         <motion.div
-          style={{ opacity: useTransform(noteMorphProgress, [0.5, 1], [0, 1]) }}
-          className="absolute inset-0"
+          style={{
+            opacity: noteLanded ? 1 : noteFoldedOpacity,
+          }}
+          className="absolute inset-0 pointer-events-none"
         >
           <Image
             src="/assets/blue-folded.png"
@@ -119,7 +127,7 @@ export default function Home() {
         </motion.div>
       </div>
 
-      <div className="h-screen w-full"></div>
+      <div className="h-250 w-full"></div>
     </main>
   );
 }
