@@ -2,10 +2,28 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/src/lib/supabase";
 
 export default function LoginPage() {
+  const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const emailToUse = `${username.trim()}@jar.local`;
+    const { error } = await supabase.auth.signInWithPassword({
+      email: emailToUse,
+      password: password,
+    });
+
+    if (error) {
+      alert("Login failed! Check your spelling.");
+    } else {
+      router.push("/");
+    }
+  };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-background">
@@ -21,7 +39,10 @@ export default function LoginPage() {
         </div>
 
         <div className="relative z-10 flex w-full flex-col items-center gap-4 pt-10 text-center">
-          <form className="flex w-3/4 flex-col gap-4 mt-10">
+          <form
+            onSubmit={handleLogin}
+            className="flex w-3/4 flex-col gap-4 mt-10"
+          >
             <input
               type="text"
               placeholder="username"
