@@ -2,13 +2,31 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/src/lib/supabase";
 
 export default function SignUpPage() {
+  const router = useRouter();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const [loading, setLoading] = useState(false);
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const emailToUse = `${username.trim()}@jar.local`;
+
+    const {} = await supabase.auth.signUp({
+      email: emailToUse,
+      password: password,
+    });
+
+    router.push("/");
+  };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-background">
@@ -24,7 +42,10 @@ export default function SignUpPage() {
         </div>
 
         <div className="relative z-10 flex h-[500px] w-[500px] flex-col items-center justify-center gap-4 pt-10 text-center">
-          <form className="flex mt-16 w-3/4 flex-col gap-4">
+          <form
+            onSubmit={handleSignup}
+            className="flex mt-16 w-3/4 flex-col gap-4"
+          >
             <input
               type="text"
               placeholder="choose a username"
