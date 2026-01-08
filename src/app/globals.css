@@ -1,13 +1,9 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --background: #faf0e6;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-shadows);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -18,6 +14,5 @@
 
 body {
   background: var(--background);
-  color: var(--foreground);
   font-family: var(--font-shadows), cursive;
 }
