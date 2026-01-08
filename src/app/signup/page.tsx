@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/src/lib/supabase";
+import Link from "next/link";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -78,6 +79,19 @@ export default function SignUpPage() {
               {loading ? "Creating..." : "Create Jar"}
             </button>
           </form>
+
+          <p
+            className="text-sm text-[#634E34]"
+            style={{ fontFamily: "var(--font-public-sans)" }}
+          >
+            already have a jar?{" "}
+            <Link
+              href="/login"
+              className="underline decoration-2 text-[#002659]"
+            >
+              log in!
+            </Link>
+          </p>
         </div>
       </div>
     </main>
