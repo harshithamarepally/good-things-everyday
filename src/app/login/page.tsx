@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/src/lib/supabase";
 
@@ -10,16 +11,23 @@ export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
+
     const emailToUse = `${username.trim()}@jar.local`;
-    const { error } = await supabase.auth.signInWithPassword({
+    const { error: signInError } = await supabase.auth.signInWithPassword({
       email: emailToUse,
       password: password,
     });
 
-    if (error) {
-      alert("Login failed! Check your spelling.");
+    if (signInError) {
+      setError("hmm try username and password again?");
+      setLoading(false);
     } else {
       router.push("/");
     }
@@ -41,7 +49,7 @@ export default function LoginPage() {
         <div className="relative z-10 flex w-full flex-col items-center gap-4 pt-10 text-center">
           <form
             onSubmit={handleLogin}
-            className="flex w-3/4 flex-col gap-4 mt-10"
+            className="flex mt-20 w-3/4 flex-col gap-4"
           >
             <input
               type="text"
@@ -58,10 +66,27 @@ export default function LoginPage() {
               className="border-b-2 border-[#634E34] bg-transparent py-2 text-center text-lg text-[#634E34] placeholder:text-[#967751] font-sans focus:outline-none"
             />
 
-            <button className="mt-4 rounded-full bg-[#634E34] px-6 py-2 text-[#F5E9D3] hover:scale-105 transition-transform font-sans">
-              Sign In
+            <button
+              type="submit"
+              disabled={loading}
+              className="mt-4 rounded-full bg-[#634E34] px-6 py-2 text-[#F5E9D3] hover:scale-105 transition-transform font-sans"
+            >
+              {loading ? "Opening..." : "Sign In"}
             </button>
           </form>
+
+          <p
+            className="text-sm text-[#634E34]"
+            style={{ fontFamily: "var(--font-public-sans)" }}
+          >
+            don't have a jar yet?{" "}
+            <Link
+              href="/signup"
+              className="underline decoration-2 text-[#002659]"
+            >
+              sign up!
+            </Link>
+          </p>
         </div>
       </div>
     </main>
