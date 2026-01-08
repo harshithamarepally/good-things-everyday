@@ -14,19 +14,44 @@ export default function SignUpPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError(null);
+
+    if (!username || !password || !confirmPassword) {
+      setError("please fill in all fields");
+      setLoading(false);
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("passwords do not match!");
+      setLoading(false);
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("password must be at least 6 characters");
+      setLoading(false);
+      return;
+    }
 
     const emailToUse = `${username.trim()}@jar.local`;
 
-    const {} = await supabase.auth.signUp({
+    const { error: signUpError } = await supabase.auth.signUp({
       email: emailToUse,
       password: password,
     });
 
-    router.push("/");
+    if (signUpError) {
+      setError(signUpError.message);
+      setLoading(false);
+    } else {
+      router.push("/");
+    }
   };
 
   return (
