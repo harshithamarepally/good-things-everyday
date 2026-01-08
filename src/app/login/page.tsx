@@ -38,7 +38,7 @@ export default function LoginPage() {
       <div className="relative flex h-[600px] w-[600px] items-center justify-center p-12">
         <div className="absolute inset-0">
           <Image
-            src="/assets/title-note.png"
+            src="/assets/login-note.png"
             alt="note background"
             fill
             className="object-contain"
