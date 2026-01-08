@@ -51,7 +51,7 @@ export default function Home() {
           y: noteLanded ? 1210 : noteY,
           scale: noteLanded ? 0.3 : noteScale,
         }}
-        className="relative h-100 w-100 top-15 z-10"
+        className="relative h-[400px] w-[400px] top-[60px] z-10"
       >
         <motion.div
           style={{
@@ -67,7 +67,7 @@ export default function Home() {
             priority
           />
 
-          <div className="absolute inset-0 flex items-center justify-center p-25">
+          <div className="absolute inset-0 flex items-center justify-center p-[100px]">
             <textarea
               value={note}
               onChange={(e) => setNote(e.target.value)}
@@ -95,8 +95,7 @@ export default function Home() {
         </motion.div>
       </motion.div>
 
-      {/* jar stuff */}
-      <div className="relative h-150 w-150 top-150">
+      <div className="relative h-[600px] w-[600px] top-[600px]">
         <Image
           src="/assets/jar-back.png"
           alt="jar-back"
@@ -127,7 +126,7 @@ export default function Home() {
         </motion.div>
       </div>
 
-      <div className="h-250 w-full"></div>
+      <div className="h-[1000px] w-full"></div>
     </main>
   );
 }
