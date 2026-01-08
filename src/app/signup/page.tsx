@@ -5,6 +5,8 @@ import { useState } from "react";
 
 export default function SignUpPage() {
   const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-background">
       <div className="relative flex h-[600px] w-[600px] items-center justify-center p-12">
@@ -25,6 +27,14 @@ export default function SignUpPage() {
               placeholder="pick ur username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              className="border-b-2 border-[#634E34] bg-transparent py-2 text-center text-lg text-[#634E34] placeholder:text-[#967751] font-sans focus:outline-none"
+            />
+
+            <input
+              type="password"
+              placeholder="what's ur password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="border-b-2 border-[#634E34] bg-transparent py-2 text-center text-lg text-[#634E34] placeholder:text-[#967751] font-sans focus:outline-none"
             />
           </form>
