@@ -14,6 +14,7 @@ export default function Home() {
   // note states
   const [note, setNote] = useState("");
   const [noteLanded, setNoteLanded] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   // jar lid animations
   const lidX = useTransform(
@@ -63,6 +64,27 @@ export default function Home() {
     });
     return () => landedCheck();
   }, [scrollYProgress, noteLanded]);
+
+  useEffect(() => {
+    if (noteLanded && user && !isSaved && note.trim().length > 0) {
+      const saveNoteToSupabase = async () => {
+        const { error } = await supabase.from("notes").insert([
+          {
+            user_id: user.id,
+            content: note,
+          },
+        ]);
+
+        if (!error) {
+          console.log("note saved to supabase!");
+          setIsSaved(true);
+        } else {
+          console.error("error saving note:", error);
+        }
+      };
+      saveNoteToSupabase();
+    }
+  }, [noteLanded, user, isSaved, note]);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-background">
