@@ -34,10 +34,10 @@ export default function Home() {
   );
 
   // note fade in out animations
-  const noteMorphProgress = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
+  const noteMorphProgress = useTransform(scrollYProgress, [0.05, 0.1], [0, 1]);
   const noteUnfoldedOpacity = useTransform(noteMorphProgress, [0, 0.5], [1, 0]);
   const noteFoldedOpacity = useTransform(noteMorphProgress, [0.5, 1], [0, 1]);
-  const noteScale = useTransform(scrollYProgress, [0, 0.1], [1, 0.3]);
+  const noteScale = useTransform(scrollYProgress, [0.05, 0.1], [1, 0.3]);
 
   // note moving down animations
   const noteY = useTransform(scrollYProgress, [0.1, 0.4, 0.7], [50, 500, 1210]);
@@ -68,10 +68,13 @@ export default function Home() {
   useEffect(() => {
     if (noteLanded && user && !isSaved && note.trim().length > 0) {
       const saveNoteToSupabase = async () => {
+        const timestamp = new Date().toISOString();
+
         const { error } = await supabase.from("notes").insert([
           {
             user_id: user.id,
             content: note,
+            created_at: timestamp,
           },
         ]);
 
