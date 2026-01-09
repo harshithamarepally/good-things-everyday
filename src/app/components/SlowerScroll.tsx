@@ -9,9 +9,9 @@ export default function SlowerScroll({
 }) {
   const lenisOptions = {
     lerp: 0.1,
-    duration: 1.5,
+    duration: 2.5,
     smoothTouch: false,
-    wheelMultiplier: 0.6,
+    wheelMultiplier: 0.4,
   };
 
   return (

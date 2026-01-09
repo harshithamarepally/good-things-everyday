@@ -3,9 +3,15 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/src/lib/supabase";
 
 export default function Home() {
+  const router = useRouter();
   const { scrollYProgress } = useScroll();
+  const [user, setUser] = useState<any>(null);
+
+  // note states
   const [note, setNote] = useState("");
   const [noteLanded, setNoteLanded] = useState(false);
 
@@ -34,6 +40,20 @@ export default function Home() {
 
   // note moving down animations
   const noteY = useTransform(scrollYProgress, [0.1, 0.4, 0.7], [50, 500, 1210]);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user) {
+        setUser(user);
+      } else {
+        router.push("/login");
+      }
+    };
+    getUser();
+  }, [router]);
 
   useEffect(() => {
     const landedCheck = scrollYProgress.on("change", (latest) => {
