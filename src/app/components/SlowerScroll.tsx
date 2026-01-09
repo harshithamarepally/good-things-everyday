@@ -11,7 +11,7 @@ export default function SlowerScroll({
     lerp: 0.1,
     duration: 2.5,
     smoothTouch: false,
-    wheelMultiplier: 0.4,
+    wheelMultiplier: 0.3,
   };
 
   return (
